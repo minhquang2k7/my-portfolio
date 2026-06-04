@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nguyễn Minh Quang — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Be+Vietnam+Pro:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#eef4f0;
+  --gold:#fce2af;
+  --gold-deep:#d4a843;
+  --ink:#1a1a1a;
+  --muted:#7a7a6e;
+  --green:#2d5c3e;
+  --green-mid:#3a7050;
+  --white:#ffffff;
+  --glass-underlay: rgba(255, 255, 255, 0.15);
+  --phone-icon-m: rgba(45, 92, 62, 0.2);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;padding-top:70px;}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(45,92,62,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(45,92,62,0.06) 1px,transparent 1px);
+  background-size:44px 44px;
+  pointer-events:none;z-index:0
+}
+
+/* ═══════════════ KEYFRAMES ANIMATIONS ═══════════════ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInNav {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.anim-load {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+.delay-3 { animation-delay: 0.45s; }
+.delay-4 { animation-delay: 0.6s; }
+.delay-5 { animation-delay: 0.75s; }
+
+/* ═══════════════ NAVIGATION BAR ═══════════════ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(238, 244, 240, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  border-bottom: 1px solid rgba(45, 92, 62, 0.1);
+  animation: fadeInNav 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.nav-container { display: flex; gap: 12px; }
+
+.nav-btn {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--green);
+  background: transparent;
+  border: 1.5px solid var(--green);
+  padding: 8px 18px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.nav-btn:hover {
+  background: var(--green);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(45, 92, 62, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ═══════════════ SECTION 1: HERO (GIỚI THIỆU) ═══════════════ */
+.hero{
+  position:relative;z-index:1; max-width: 1100px; margin: 0 auto; padding: 60px 40px 80px;
+  display:grid; grid-template-columns:1fr 460px; align-items:center; overflow:hidden;
+}
+
+.corner-tag{
+  position:absolute; font-size:10px;letter-spacing:1.8px; color:var(--muted);
+  font-family:'Be Vietnam Pro',sans-serif; text-transform:uppercase;font-weight:400;
+}
+.corner-tag.tl{top:15px;left:40px;display:flex;align-items:center;gap:8px}
+.corner-tag.tr{top:15px;right:40px;text-align:right}
+.corner-tag.bl{bottom:30px;left:40px}
+.corner-tag.br{bottom:30px;right:40px;text-align:right}
+.ctag-badge{
+  border:1px solid var(--green);border-radius:100px;
+  padding:2px 10px;color:var(--green);font-size:9px;letter-spacing:2px;
+}
+
+.hero-left{display:flex;flex-direction:column;gap:0;position:relative}
+
+.hero-eyebrow{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--green-mid);font-weight:500; margin-bottom:20px; display:flex;align-items:center;gap:10px;
+}
+.hero-eyebrow::before{content:'';width:28px;height:1.5px;background:var(--green-mid)}
+
+.hero-name{
+  font-family:'Playfair Display',serif; font-size:clamp(56px, 6vw, 90px); 
+  line-height:0.92; margin-bottom:10px; color:var(--ink);
+}
+.hero-name .n1{display:block;font-weight:700;font-style:normal}
+.hero-name .n2{display:block;font-weight:900;font-style:italic;color:var(--green)}
+.hero-name .n3{ display:block;font-weight:700;font-style:normal; -webkit-text-stroke:1.5px var(--ink);color:transparent; }
+
+.hero-tagline{
+  font-size:14px;font-weight:300;color:var(--muted);
+  margin:22px 0 28px;letter-spacing:0.5px;line-height:1.6; max-width:400px;
+}
+.hero-tagline strong{color:var(--ink);font-weight:600}
+
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.pill{
+  font-family:'Be Vietnam Pro',sans-serif; font-size:11px;font-weight:600;
+  letter-spacing:0.8px; padding:6px 16px;border-radius:100px; text-transform:uppercase;
+}
+.pill-solid{background:var(--gold);border:1.5px solid var(--gold-deep);color:var(--ink)}
+.pill-outline{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}
+.pill-green{background:var(--green);border:1.5px solid var(--green);color:var(--white)}
+
+.hero-meta{ display:flex;flex-direction:column;gap:5px; font-size:12px;color:var(--muted); }
+.meta-row{display:flex;align-items:center;gap:7px}
+.meta-dot{width:4px;height:4px;border-radius:50%;background:var(--gold-deep);flex-shrink:0}
+.meta-row strong{color:var(--ink);font-weight:600}
+
+.scroll-cue{
+  margin-top:44px;display:flex;align-items:center;gap:10px; font-size:10px;
+  letter-spacing:2px;color:var(--muted);text-transform:uppercase;
+}
+.sc-circle{
+  width:34px;height:34px;border-radius:50%; border:1.5px solid rgba(45,92,62,0.3);
+  display:flex;align-items:center;justify-content:center; animation:bob 2s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+.hero-right{ position:relative; display:flex;align-items:center;justify-content:center; }
+.chibi-stage{ position:relative;width:400px;height:460px; display:flex;align-items:center;justify-content:center; }
+
+.sticker{
+  position:absolute; background:var(--white); border:1.5px solid var(--gold-deep);
+  border-radius:10px; padding:7px 13px; font-family:'Be Vietnam Pro',sans-serif;
+  font-size:11px;font-weight:600; box-shadow:3px 3px 0 var(--gold); z-index:4;
+  white-space:nowrap; letter-spacing:0.2px;
+}
+.stk1{top:40px;left:-10px;transform:rotate(-7deg);color:var(--green)}
+.stk2{top:160px;right:-20px;transform:rotate(5deg);color:var(--ink)}
+.stk3{bottom:60px;left:0px;transform:rotate(2deg);color:var(--green-mid)}
+
+.deco-ring{ position:absolute;border-radius:50%; border:1.5px dashed var(--gold-deep);opacity:0.6; }
+.dr1{width:70px;height:70px;top:20px;right:40px}
+.dr2{width:44px;height:44px;bottom:40px;left:30px}
+
+.spin-star{ position:absolute;font-size:20px;color:var(--gold-deep); animation:spin 9s linear infinite; }
+.ss1{top:10px;right:80px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.chibi-img{
+  width:320px; height:320px; aspect-ratio: 1 / 1; border-radius: 50%;
+  border: 10px solid var(--gold); object-fit:cover; object-position:center top;
+  position:relative;z-index:2; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.name-plate{
+  position:absolute;bottom:30px;left:50%;transform:translateX(-50%); background:var(--gold);
+  border:2px solid var(--gold-deep); border-radius:100px;padding:8px 26px;
+  font-family:'Playfair Display',serif; font-size:14px;font-weight:700;font-style:italic;
+  white-space:nowrap;z-index:5; box-shadow:3px 3px 0 var(--gold-deep);
+}
+
+/* ═══════════════ DIVIDER ═══════════════ */
+.divider{
+  position:relative;z-index:1;height:1px;max-width:1000px;margin:20px auto;
+  background:repeating-linear-gradient(90deg,var(--gold-deep) 0,var(--gold-deep) 6px,transparent 6px,transparent 14px);
+}
+
+/* ═══════════════ SECTION 2: MỤC TIÊU PHÁT TRIỂN ═══════════════ */
+.sec-goal{
+  position:relative;z-index:1; max-width: 1100px; margin: 0 auto; padding: 80px 40px;
+  display:grid;grid-template-columns:1fr 1fr; align-items:center;gap:60px;
+}
+.sec-left{display:flex;flex-direction:column;gap:18px}
+.sec-eyebrow{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase; color:var(--green-mid);
+  font-weight:600; display:flex;align-items:center;gap:8px;
+}
+.sec-eyebrow::before{content:'';width:20px;height:1.5px;background:var(--green-mid)}
+
+.sec-bignum {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 90px;
+  line-height: 0.8;
+  color: var(--gold-deep);
+  text-shadow: 2px 2px 0px rgba(45, 92, 62, 0.15);
+  margin-bottom: 5px;
+}
+
+.sec-title{font-family:'Playfair Display',serif;font-size:50px;line-height:1.05;font-weight:700;color:var(--ink);}
+.sec-title em{font-style:italic;color:var(--green)}
+.sec-body{
+  font-size:14px;line-height:1.9;color:#3d4a40;font-weight:300; border-left:3px solid var(--gold-deep);padding-left:16px;
+}
+.sec-body strong{font-weight:600;color:var(--ink)}
+.chips{display:flex;flex-direction:column;gap:10px}
+.chip{
+  display:flex;align-items:flex-start;gap:12px; background:var(--white);
+  border:1px solid rgba(45,92,62,0.12);border-radius:10px;padding:13px 16px;
+}
+.chip-ico{font-size:18px;flex-shrink:0;margin-top:2px}
+.chip-body strong{display:block;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:2px;letter-spacing:0.3px}
+.chip-body span{font-size:11px;color:var(--muted);line-height:1.55;font-weight:300}
+
+.sec-right{display:flex;align-items:center;justify-content:center;position:relative}
+.stone-wrap{position:relative;width:260px}
+.stone-star2{position:absolute;font-size:16px;color:var(--gold-deep);animation:spin 10s linear infinite}
+.stone-star2.a{top:-18px;left:18px;font-size:12px}
+.stone-star2.b{top:-8px;right:10px;animation-direction:reverse}
+.stone-star2.c{bottom:28px;left:-12px;font-size:12px}
+.stone{
+  width:220px;margin:0 auto;background:var(--white);border:2px solid var(--gold-deep);
+  border-radius:50% 50% 8px 8px / 28% 28% 8px 8px;padding:34px 24px 28px;text-align:center;
+  box-shadow:5px 7px 0 var(--gold);position:relative;z-index:2;
+}
+.stone-head{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;font-style:italic;color:var(--green);margin-bottom:10px;}
+.stone-line{
+  height:1.5px;margin-bottom:12px; background:repeating-linear-gradient(90deg,var(--gold-deep) 0,var(--gold-deep) 5px,transparent 5px,transparent 10px);
+}
+.stone-items{display:flex;flex-direction:column;gap:7px;text-align:left}
+.si{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--ink)}
+.si::before{content:'★';font-size:8px;color:var(--gold-deep)}
+.stone-foot{width:238px;height:12px;background:var(--gold);border:1.5px solid var(--gold-deep);border-radius:3px;margin:0 auto}
+.stone-foot2{width:196px;height:8px;background:rgba(212,168,67,0.35);border:1px solid var(--gold-deep);border-radius:3px;margin:4px auto 0}
+
+/* ═══════════════ SECTION 3: MỤC TIÊU PORTFOLIO ═══════════════ */
+.sec-portfolio-goals {
+  position:relative;z-index:1; max-width: 1100px; margin: 0 auto; padding: 80px 40px;
+  display:grid;grid-template-columns:1fr 1fr; align-items:center;gap:60px;
+}
+.sec-portfolio-goals .goals-left { order:2 }
+.sec-portfolio-goals .goals-right { order:1 }
+
+.pf-stack{position:relative;width:300px;height:340px; margin: 0 auto;}
+.pfc{
+  position:absolute;background:var(--white);border:1.5px solid rgba(45,92,62,0.15);
+  border-radius:12px;padding:16px 18px;box-shadow:3px 3px 0 var(--gold);
+}
+.pfc.c1{top:0;left:0;width:190px;transform:rotate(-5deg)}
+.pfc.c2{top:50px;left:70px;width:200px;transform:rotate(3deg);background:var(--gold);border-color:var(--gold-deep)}
+.pfc.c3{top:145px;left:15px;width:200px;transform:rotate(-2deg)}
+.pfc.c4{top:230px;left:90px;width:175px;transform:rotate(5deg)}
+.pfc-ico{font-size:18px;margin-bottom:5px}
+.pfc-lbl{font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--ink)}
+.pfc-sub{font-size:10px;color:var(--muted);margin-top:2px;font-weight:300}
+
+.why-list{display:flex;flex-direction:column;gap:14px}
+.why-item{display:flex;gap:12px;align-items:flex-start}
+.why-badge{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;background:var(--gold);
+  border:2px solid var(--gold-deep); font-family:'Playfair Display',serif;font-size:14px;
+  font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--ink);
+}
+.why-body strong{display:block;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:2px;letter-spacing:0.2px}
+.why-body span{font-size:11px;color:var(--muted);line-height:1.6;font-weight:300}
+
+/* ═══════════════ SECTION 4: TRANG DỰ ÁN ═══════════════ */
+.sec-project-grid {
+  position: relative; z-index: 1; background: transparent;
+  border-top: 1px solid rgba(45, 92, 62, 0.08); border-bottom: 1px solid rgba(45, 92, 62, 0.08);
+  padding: 90px 20px; overflow: hidden;
+}
+
+.phone-matrix-bg {
+  position: absolute; inset: 0; z-index: 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+  gap: 16px; padding: 10px; opacity: 0.2; pointer-events: none;
+}
+.phone-pixel-icon { font-size: 14px; display: flex; align-items: center; justify-content: center; filter: grayscale(20%); }
+
+.project-container { position: relative; max-width: 1100px; margin: 0 auto; z-index: 2; }
+
+.glass-panel-underlay {
+  position: relative; width: 100%; background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+  border: 1.5px solid rgba(255, 255, 255, 0.7); border-radius: 24px; padding: 45px 35px;
+  box-shadow: 0 25px 45px rgba(0,0,0,0.05);
+}
+
+.sparkle-ambient-wrapper { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.sparkle-node {
+  position: absolute; color: var(--gold-deep); font-size: 16px;
+  animation: shineAnimation 3s infinite ease-in-out; opacity: 0.6;
+}
+@keyframes shineAnimation {
+  0%, 100% { transform: scale(0.5) rotate(0deg); opacity: 0.2; }
+  50% { transform: scale(1.2) rotate(180deg); opacity: 0.9; }
+}
+
+.grid-header { text-align: center; margin-bottom: 50px; position: relative; z-index: 2; }
+.grid-title { font-family: 'Playfair Display', serif; font-size: 42px; color: var(--ink); font-weight: 700; margin-top: 5px; }
+.grid-title em { font-style: italic; color: var(--green); }
+
+.folder-accordion-container {
+  display: flex; width: 100%; height: 480px; gap: 0; overflow: hidden; padding: 10px 0; position: relative; z-index: 2;
+}
+
+.folder-tab-card {
+  position: relative; flex: 0 0 75px; min-width: 75px; height: 100%; background: var(--bg);
+  border: 1.5px solid rgba(45, 92, 62, 0.2); border-radius: 14px; cursor: pointer; display: flex;
+  flex-direction: row; overflow: hidden; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.05); background-image: linear-gradient(to right, rgba(0,0,0,0.03), transparent 20px);
+}
+
+.folder-tab-card:nth-child(1) { background-color: #e4ebe6; }
+.folder-tab-card:nth-child(2) { background-color: #fce2af; border-color: var(--gold-deep); } 
+.folder-tab-card:nth-child(3) { background-color: #e2eafc; }
+.folder-tab-card:nth-child(4) { background-color: #f7e2fc; }
+.folder-tab-card:nth-child(5) { background-color: #fcf6e2; }
+.folder-tab-card:nth-child(6) { background-color: #dbebe1; }
+
+.folder-vertical-spine {
+  width: 75px; height: 100%; display: flex; flex-direction: column; align-items: center;
+  justify-content: flex-start; padding: 30px 0; flex-shrink: 0;
+  border-right: 1px dashed rgba(45, 92, 62, 0.15); position: relative;
+}
+
+.folder-spine-ico { font-size: 20px; margin-bottom: 30px; }
+.folder-spine-title {
+  font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700;
+  color: var(--ink); white-space: nowrap; transform: rotate(90deg);
+  transform-origin: center; margin-top: 50px; letter-spacing: 0.5px;
+}
+
+.folder-inner-content {
+  opacity: 0; transform: translateX(20px); padding: 40px 35px; display: flex;
+  flex-direction: column; justify-content: space-between; width: 100%; height: 100%;
+  overflow: hidden; transition: opacity 0.3s ease, transform 0.4s ease;
+}
+
+.folder-tab-card:hover {
+  flex: 1 1 100%; background-color: var(--white) !important; 
+  box-shadow: 0 15px 35px rgba(45, 92, 62, 0.12); z-index: 10; border-color: var(--green);
+}
+
+.folder-tab-card:hover .folder-inner-content { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
+
+.f-badge {
+  align-self: flex-start; font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; background: var(--green); color: var(--white);
+  padding: 5px 12px; border-radius: 100px; margin-bottom: 20px;
+}
+.f-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 16px; }
+.f-summary { font-size: 14px; color: #4a554f; line-height: 1.7; font-weight: 300; margin-bottom: 30px; }
+.f-summary strong { color: var(--ink); font-weight: 600; }
+
+.f-link-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--ink); background: var(--gold); border: 1.5px solid var(--gold-deep);
+  padding: 12px 24px; border-radius: 8px; text-decoration: none; transition: all 0.2s ease;
+  align-self: flex-start; cursor: pointer;
+}
+.f-link-btn:hover { background: var(--gold-deep); color: var(--white); transform: translateY(-2px); }
+
+/* ═══════════════ VIDEO DỰ ÁN GIỮA KỲ ═══════════════ */
+.sec-midterm-video {
+  position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 50px 40px 90px;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 60px;
+}
+.video-wrapper {
+  position: relative; width: 100%; padding-bottom: 56.25%;
+  border-radius: 16px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  border: 2px solid var(--gold-deep);
+}
+.video-wrapper iframe {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+}
+.video-owner-name {
+  font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic;
+  font-size: 46px; line-height: 1.1; color: var(--gold-deep);
+  text-shadow: 2px 2px 0px rgba(45, 92, 62, 0.15); margin-top: 15px;
+}
+
+/* ═══════════════ TRANG VIEW DOCS LƯỚT TỪ BÊN PHẢI VÀO ═══════════════ */
+.docs-viewer-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 52%;
+  height: 100vh;
+  transform: translateX(100%);
+  background-color: #eef4f0;
+  background-image:
+    linear-gradient(rgba(45,92,62,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,92,62,0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  z-index: 9999;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-left: 2px solid rgba(212, 168, 67, 0.35);
+  box-shadow: -8px 0 40px rgba(45, 92, 62, 0.12);
+}
+
+.docs-viewer-overlay.active {
+  transform: translateX(0);
+}
+
+.docs-dim-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 17, 23, 0.22);
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.docs-dim-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.docs-header-bar {
+  position: sticky;
+  top: 0;
+  background: rgba(238, 244, 240, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 12px 24px;
+  border-bottom: 1.5px solid rgba(212, 168, 67, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+  box-shadow: 0 2px 12px rgba(45, 92, 62, 0.08);
+}
+
+.btn-back-portfolio {
+  background: var(--green);
+  color: var(--white);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btn-back-portfolio:hover {
+  background: var(--green-mid);
+  transform: translateX(-3px);
+}
+
+.docs-title-info { display: flex; flex-direction: column; }
+.docs-title-info strong { font-size: 14px; color: var(--ink); font-weight: 700; font-family: 'Be Vietnam Pro', sans-serif; }
+.docs-title-info span { font-size: 11px; color: var(--muted); font-family: 'Be Vietnam Pro', sans-serif; }
+
+.docs-paper-container {
+  padding: 40px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.docs-panel-title {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 4px;
+}
+.docs-panel-title .dpt-badge {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  background: var(--gold); border: 1.5px solid var(--gold-deep);
+  color: var(--ink); padding: 3px 12px; border-radius: 100px;
+}
+.docs-panel-title .dpt-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 700; font-style: italic; color: var(--green);
+}
+
+@media(max-width:1100px){
+  .docs-viewer-overlay { width: 68%; }
+}
+@media(max-width:768px){
+  .docs-viewer-overlay { width: 100%; border-left: none; box-shadow: none; }
+  .docs-paper-container { padding: 24px 12px 40px; }
+}
+
+/* ═══════════════ SECTION: REVIEWS (NỀN MÈO GIỮ NGUYÊN) ═══════════════ */
+.sec-reviews {
+  position: relative; z-index: 1; padding: 100px 20px;
+  background: url('nenmeo.png') no-repeat center center;
+  background-size: cover; background-attachment: fixed; 
+}
+.sec-reviews::before {
+  content: ''; position: absolute; inset: 0; background: rgba(238, 244, 240, 0.60); z-index: 1;
+}
+.reviews-container { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; }
+.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; }
+
+.review-card {
+  background: rgba(26, 26, 26, 0.95); border: 1.5px solid var(--gold-deep); border-radius: 16px;
+  padding: 30px 24px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); display: flex; flex-direction: column; transition: all 0.3s ease;
+}
+.review-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(45, 92, 62, 0.25); border-color: var(--gold); }
+.rev-user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+.rev-avatar {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--gold); border: 1.5px solid var(--gold-deep);
+  display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 16px; color: var(--ink);
+}
+.rev-name { font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); }
+.rev-role { font-size: 11px; color: var(--gold); font-weight: 400; }
+.rev-stars { color: var(--gold); font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; }
+.rev-comment { font-size: 13px; color: #d1d1d1; line-height: 1.7; font-weight: 300; font-style: italic; }
+
+@media(max-width:980px){ .reviews-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:600px){ .reviews-grid { grid-template-columns: 1fr; } }
+
+/* ═══════════════ SECTION 5: TRANG TỔNG KẾT ═══════════════ */
+.sec-final-summary {
+  position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 100px 40px;
+  display: grid; grid-template-columns: 1.2fr 0.8fr; align-items: center; gap: 50px;
+}
+.summary-left { display: flex; flex-direction: column; gap: 18px; }
+.sec-final-summary .sec-bignum { margin-bottom: 15px; }
+.summary-title-grid { font-family: 'Playfair Display', serif; font-size: 46px; font-weight: 700; color: var(--ink); line-height: 1.1; }
+.summary-title-grid em { font-style: italic; color: var(--green); }
+
+.summary-list { display: flex; flex-direction: column; gap: 20px; margin-top: 10px; }
+.summary-item { display: flex; gap: 16px; align-items: flex-start; }
+.summary-badge {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; background: var(--gold); border: 2px solid var(--gold-deep);
+  font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: var(--ink);
+}
+.summary-body strong { display: block; font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.summary-body span { font-size: 12.5px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+.y2k-thanks-container {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 20px; text-align: center;
+}
+.y2k-thanks-title {
+  font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 900; font-style: italic; text-transform: uppercase; line-height: 1; color: var(--green);
+  text-shadow: -2px -2px 0 var(--gold), 2px -2px 0 var(--gold), -2px 2px 0 var(--gold), 2px 2px 0 var(--gold), 4px 4px 0px var(--gold-deep), 7px 7px 0px rgba(45, 92, 62, 0.2);
+  letter-spacing: -1px; margin-bottom: 6px; animation: floatY2K 4s ease-in-out infinite;
+}
+.y2k-thanks-sub {
+  font-family: 'Be Vietnam Pro', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--ink);
+  background: var(--gold); border: 1.5px solid var(--gold-deep); padding: 6px 18px; border-radius: 4px; box-shadow: 3px 3px 0px var(--green);
+}
+@keyframes floatY2K {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.02); }
+}
+
+/* ═══════════════ REVEAL INTERSECTION OBSERVER ═══════════════ */
+.reveal { opacity: 0; transform: translateY(35px); transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+.reveal.on { opacity: 1; transform: translateY(0); }
+
+@media(max-width:860px){
+  .hero,.sec-goal, .sec-portfolio,.sec-final-summary, .sec-midterm-video { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+  .hero-right { padding: 20px 0; }
+  .chibi-img { width: 260px; height: 260px; }
+  .corner-tag { display: none; }
+  .summary-title-grid { font-size: 38px; }
+  .sec-bignum { font-size: 70px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="#gioi-thieu" class="nav-btn">Giới thiệu</a>
+    <a href="#du-an" class="nav-btn">Dự án</a>
+    <a href="#danh-gia" class="nav-btn">Đánh giá</a>
+    <a href="#tong-quan" class="nav-btn">Tổng quan</a>
+  </div>
+</nav>
+
+<section id="gioi-thieu" class="hero">
+  <span class="corner-tag tl"><span class="ctag-badge">PORTFOLIO</span> 2026</span>
+  <span class="corner-tag tr">VNU-UET<br>Vật liệu Vi điện tử</span>
+  <span class="corner-tag bl">MSV · 25024024</span>
+  <span class="corner-tag br">Thiết kế · Âm nhạc</span>
+
+  <div class="hero-left reveal">
+    <div class="hero-eyebrow anim-load">Portfolio cá nhân</div>
+    <h1 class="hero-name anim-load delay-1">
+      <span class="n1">Nguyễn</span>
+      <span class="n2">Minh Quang</span>
+      <span class="n3">Engineer</span>
+    </h1>
+    <p class="hero-tagline anim-load delay-2">
+      Sinh viên <strong>Công nghệ Vật liệu Vi điện tử</strong> — kết hợp tư duy kỹ thuật với niềm đam mê thiết kế và âm nhạc.
+    </p>
+    <div class="hero-pills anim-load delay-3">
+      <span class="pill pill-solid">🔬 Vi điện tử</span>
+      <span class="pill pill-outline">🎨 Thiết kế</span>
+      <span class="pill pill-green">🎵 Âm nhạc</span>
+    </div>
+    <div class="hero-meta anim-load delay-4">
+      <div class="meta-row"><span class="meta-dot"></span><span>Mã sinh viên: <strong>25024024</strong></span></div>
+      <div class="meta-row"><span class="meta-dot"></span><span>Ngành: <strong>Công nghệ Vật liệu Vi điện tử</strong></span></div>
+      <div class="meta-row"><span class="meta-dot"></span><span>Trường: <strong>VNU-UET · ĐHQGHN</strong></span></div>
+    </div>
+    <div class="scroll-cue anim-load delay-5">
+      <div class="sc-circle">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      Lướt để khám phá
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="chibi-stage anim-load delay-2">
+      <span class="sticker stk1">Kỹ sư tương lai ✦</span>
+      <span class="sticker stk2">MSV: 25024024</span>
+      <span class="sticker stk3">VNU-UET 🎓</span>
+      <div class="deco-ring dr1"></div>
+      <div class="deco-ring dr2"></div>
+      <span class="spin-star ss1">✦</span>
+      <img class="chibi-img" src="anh.png" alt="Minh Quang">
+      <div class="name-plate">Minh Quang</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider reveal"></div>
+
+<section class="sec-goal">
+  <div class="sec-left reveal">
+    <div class="sec-bignum">01</div>
+    <div class="sec-eyebrow">Định hướng &amp; Học tập</div>
+    <h2 class="sec-title">Mục tiêu<br><em>Phát triển</em></h2>
+    <p class="sec-body">
+      Nắm vững các <strong>kiến thức cốt lõi</strong> chuyên ngành và liên tục cập nhật công nghệ mới. Định hướng trở thành một kỹ sư có thể kết hợp nền tảng tư duy kỹ thuật với khả năng sáng tạo để tạo ra các giải pháp có tính ứng dụng cao.
+    </p>
+    <div class="chips">
+      <div class="chip">
+        <div class="chip-ico">⚙️</div>
+        <div class="chip-body"><strong>Chuyên môn sâu</strong><span>Làm chủ nền tảng vật liệu vi điện tử.</span></div>
+      </div>
+      <div class="chip">
+        <div class="chip-ico">💡</div>
+        <div class="chip-body"><strong>Tư duy sáng tạo</strong><span>Áp dụng góc nhìn thiết kế vào giải pháp kỹ thuật.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-right reveal" style="transition-delay:.15s">
+    <div class="stone-wrap">
+      <span class="stone-star2 a">✦</span>
+      <span class="stone-star2 b">✦</span>
+      <span class="stone-star2 c">✦</span>
+      <div class="stone">
+        <div class="stone-head">Core Target</div>
+        <div class="stone-line"></div>
+        <div class="stone-items">
+          <div class="si">Vi mạch bán dẫn</div>
+          <div class="si">Thiết kế hệ thống</div>
+          <div class="si">Chuyển đổi số</div>
+          <div class="si">Sáng tạo &amp; Thẩm mỹ</div>
+        </div>
+      </div>
+      <div class="stone-foot"></div>
+      <div class="stone-foot2"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider reveal"></div>
+
+<section class="sec-portfolio-goals">
+  <div class="goals-right reveal">
+    <div class="pf-stack">
+      <div class="pfc c1"><div class="pfc-ico">📁</div><div class="pfc-lbl">Lưu trữ dự án</div><div class="pfc-sub">Hệ thống hóa sản phẩm</div></div>
+      <div class="pfc c2"><div class="pfc-ico">🚀</div><div class="pfc-lbl">Kỹ năng số</div><div class="pfc-sub">Thể hiện năng lực thực tế</div></div>
+      <div class="pfc c3"><div class="pfc-ico">📈</div><div class="pfc-lbl">Theo dõi tiến độ</div><div class="pfc-sub">Quan sát sự trưởng thành</div></div>
+      <div class="pfc c4"><div class="pfc-ico">🤝</div><div class="pfc-lbl">Chia sẻ chuyên nghiệp</div><div class="pfc-sub">Dễ dàng giới thiệu bản thân</div></div>
+    </div>
+  </div>
+
+  <div class="goals-left reveal">
+    <div class="sec-bignum">02</div>
+    <div class="sec-eyebrow">Lý do xây dựng</div>
+    <h2 class="sec-title">Mục tiêu<br><em>Portfolio</em></h2>
+    <div class="why-list">
+      <div class="why-item"><div class="why-badge">1</div><div class="why-body"><strong>Thể hiện kỹ năng số</strong><span>Trình bày rõ ràng các kỹ năng tích lũy trong quá trình học tập tại VNU-UET.</span></div></div>
+      <div class="why-item"><div class="why-badge">2</div><div class="why-body"><strong>Lưu trữ sản phẩm cá nhân</strong><span>Tập hợp các dự án nổi bật như kho tài liệu cá nhân dễ truy cập và chia sẻ.</span></div></div>
+      <div class="why-item"><div class="why-badge">3</div><div class="why-body"><strong>Theo dõi quá trình phát triển</strong><span>Quan sát sự tiến bộ của bản thân qua từng giai đoạn học tập và thực hành.</span></div></div>
+      <div class="why-item"><div class="why-badge">4</div><div class="why-body"><strong>Chia sẻ chuyên nghiệp</strong><span>Giới thiệu năng lực một cách chuyên nghiệp với giảng viên và nhà tuyển dụng.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider reveal"></div>
+
+<section id="du-an" class="sec-project-grid">
+  <div class="phone-matrix-bg">
+    <div class="phone-pixel-icon">📱</div><div class="phone-pixel-icon">📳</div><div class="phone-pixel-icon">📱</div><div class="phone-pixel-icon">📱</div>
+    <div class="phone-pixel-icon">📱</div><div class="phone-pixel-icon">📱</div><div class="phone-pixel-icon">📳</div><div class="phone-pixel-icon">📱</div>
+    <div class="phone-pixel-icon">📱</div><div class="phone-pixel-icon">📱</div><div class="phone-pixel-icon">📱</div><div class="phone-pixel-icon">📱</div>
+    <div class="phone-pixel-icon">📳</div><div class="phone-pixel-icon">📱</div><div class="phone-pixel-icon">📱</div><div class="phone-pixel-icon">📳</div>
+  </div>
+
+  <div class="project-container reveal">
+    <div class="glass-panel-underlay">
+      <div class="sparkle-ambient-wrapper">
+        <span class="sparkle-node" style="top: 8%; left: 4%;">✦</span>
+        <span class="sparkle-node" style="top: 25%; right: 7%; animation-delay: 0.5s;">✦</span>
+        <span class="sparkle-node" style="bottom: 12%; left: 10%; animation-delay: 1.2s;">✦</span>
+        <span class="sparkle-node" style="bottom: 30%; right: 5%; animation-delay: 0.8s;">✦</span>
+      </div>
+
+      <div class="grid-header">
+        <div class="sec-eyebrow" style="justify-content: center;">Sản phẩm thực hành</div>
+        <h2 class="grid-title">Hệ thống <em>Bài tập</em></h2>
+      </div>
+
+      <div class="folder-accordion-container">
+        <div class="folder-tab-card">
+          <div class="folder-vertical-spine">
+            <div class="folder-spine-ico">📁</div>
+            <div class="folder-spine-title">BÀI TẬP 1</div>
+          </div>
+          <div class="folder-inner-content">
+            <div>
+              <div class="f-badge">Bài tập 1 · Bài 1</div>
+              <h3 class="f-title">Máy tính và thiết bị ngoại vi</h3>
+              <p class="f-summary"><strong>Mục tiêu:</strong> Làm chủ cấu trúc phần cứng, nguyên lý hoạt động và cách kết nối phối hợp tối ưu giữa máy tính và thiết bị ngoại vi.</p>
+            </div>
+            <button id="btn-baitap-1" class="f-link-btn">📄 Xem Bài tập 1</button>
+          </div>
+        </div>
+
+        <div class="folder-tab-card">
+          <div class="folder-vertical-spine">
+            <div class="folder-spine-ico">📁</div>
+            <div class="folder-spine-title">BÀI TẬP 2</div>
+          </div>
+          <div class="folder-inner-content">
+            <div>
+              <div class="f-badge">Bài tập 2 · Bài 2</div>
+              <h3 class="f-title">Khai thác dữ liệu và thông tin</h3>
+              <p class="f-summary"><strong>Mục tiêu:</strong> Ứng dụng các quy trình và công cụ phân tích để tổ chức, sàng lọc thông tin và khai thác chuyên sâu các tập dữ liệu kỹ thuật.</p>
+            </div>
+            <button id="btn-baitap-2" class="f-link-btn">📄 Xem Bài tập 2</button>
+          </div>
+        </div>
+
+        <div class="folder-tab-card">
+          <div class="folder-vertical-spine">
+            <div class="folder-spine-ico">📁</div>
+            <div class="folder-spine-title">BÀI TẬP 3</div>
+          </div>
+          <div class="folder-inner-content">
+            <div>
+              <div class="f-badge">Bài tập 3 · Bài 3</div>
+              <h3 class="f-title">Tổng quan về trí tuệ nhân tạo</h3>
+              <p class="f-summary"><strong>Mục tiêu:</strong> Tìm hiểu cấu trúc AI, học máy, phân tích tác động và tiềm năng tích hợp trí tuệ nhân tạo vào thiết kế vi mạch.</p>
+            </div>
+            <button id="btn-baitap-3" class="f-link-btn">📄 Xem Bài tập 3</button>
+          </div>
+        </div>
+
+        <div class="folder-tab-card">
+          <div class="folder-vertical-spine">
+            <div class="folder-spine-ico">📁</div>
+            <div class="folder-spine-title">BÀI TẬP 4</div>
+          </div>
+          <div class="folder-inner-content">
+            <div>
+              <div class="f-badge">Bài tập 4 · Bài 4</div>
+              <h3 class="f-title">Giao tiếp và hợp tác trong số</h3>
+              <p class="f-summary"><strong>Mục tiêu:</strong> Tối ưu hóa hiệu suất làm việc nhóm từ xa, vận dụng linh hoạt các nền tảng số phục vụ nghiên cứu và quản lý dự án.</p>
+            </div>
+            <button id="btn-baitap-4" class="f-link-btn">📄 Xem Bài tập 4</button>
+          </div>
+        </div>
+
+        <div class="folder-tab-card">
+          <div class="folder-vertical-spine">
+            <div class="folder-spine-ico">📁</div>
+            <div class="folder-spine-title">BÀI TẬP 5</div>
+          </div>
+          <div class="folder-inner-content">
+            <div>
+              <div class="f-badge">Bài tập 5 · Bài 5</div>
+              <h3 class="f-title">Sáng tạo nội dung số</h3>
+              <p class="f-summary"><strong>Mục tiêu:</strong> Phát triển tư duy thẩm mỹ và ứng dụng các công cụ Generative AI (Gemini, DALL-E, Canva) để xây dựng truyền thông sáng tạo cho CLB Khoa học Vật liệu MSC.</p>
+            </div>
+            <button id="btn-baitap-5" class="f-link-btn">📄 Xem Bài tập 5</button>
+          </div>
+        </div>
+
+        <div class="folder-tab-card">
+          <div class="folder-vertical-spine">
+            <div class="folder-spine-ico">📁</div>
+            <div class="folder-spine-title">BÀI TẬP 6</div>
+          </div>
+          <div class="folder-inner-content">
+            <div>
+              <div class="f-badge">Bài tập 6 · Bài 6</div>
+              <h3 class="f-title">An toàn và liêm chính học thuật</h3>
+              <p class="f-summary"><strong>Mục tiêu:</strong> Tuân thủ và phân tích sâu các nguyên tắc sử dụng AI có trách nhiệm theo đúng khung chính sách quy định của nhà trường VNU-UET.</p>
+            </div>
+            <button id="btn-baitap-6" class="f-link-btn">📄 Xem Bài tập 6</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+</section>
+
+<!-- THÊM PHẦN VIDEO DỰ ÁN GIỮA KỲ VÀO ĐÂY (ĐÃ CẬP NHẬT FRAME MỚI) -->
+<section class="sec-midterm-video reveal">
+  <div class="video-wrapper">
+    <iframe width="1136" height="639" src="https://www.youtube.com/embed/VDuQ6hExvis" title="NHÓM 15 - AI TRONG ỨNG DỤNG TRONG ĐỜI SỐNG - NGOẠI NGỮ VÀ GIÁO DỤC" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+  <div class="video-info">
+    <div class="sec-eyebrow">Dự án nổi bật · Nhóm 15</div>
+    <h2 class="sec-title" style="font-size: 32px;">AI trong ứng dụng đời sống<br><em>Ngoại ngữ &amp; Giáo dục</em></h2>
+    <div class="video-owner-name">của Nguyễn Minh Quang</div>
+  </div>
+</section>
+
+<div class="divider reveal"></div>
+
+<section id="danh-gia" class="sec-reviews">
+  <div class="reviews-container reveal">
+    <div class="grid-header">
+      <div class="sec-eyebrow" style="justify-content: center; color: var(--green);">Ý kiến từ bạn bè</div>
+      <h2 class="grid-title">Reviews <em>&amp; Đánh giá</em></h2>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="rev-user-info">
+          <div class="rev-avatar">HD</div>
+          <div>
+            <div class="rev-name">Lê Hồng Đăng</div>
+            <div class="rev-role">Sinh viên VNU-UET</div>
+          </div>
+        </div>
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-comment">
+          "Hệ thống bài tập cực kỳ đầy đủ and chi tiết! Phần cấu trúc thiết bị ngoại vi và máy tính được Quang hệ thống hóa rất bài bản, thể hiện rõ tư duy logic của một kỹ sư Vi điện tử tương lai."
+        </p>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="rev-user-info">
+          <div class="rev-avatar">MĐ</div>
+          <div>
+            <div class="rev-name">Nguyễn Mạnh Đạt</div>
+            <div class="rev-role">Sinh viên VNU-UET</div>
+          </div>
+        </div>
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-comment">
+          "Mình rất ấn tượng với bài phân tích Trí tuệ nhân tạo và Sáng tạo nội dung số của bạn. Portfolio vừa có tính chuyên môn kỹ thuật cao lại vừa giữ được nét thẩm mỹ sáng tạo, phá cách."
+        </p>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="rev-user-info">
+          <div class="rev-avatar">ĐĐ</div>
+          <div>
+            <div class="rev-name">Lê Đình Đạt</div>
+            <div class="rev-role">Sinh viên VNU-UET</div>
+          </div>
+        </div>
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-comment">
+          "Trang web chạy mượt và bố cục siêu gãy gọn. Các phần liên quan đến An toàn thông tin và Liêm chính học thuật được đính kèm link rõ ràng, chuẩn phong cách làm việc chuyên nghiệp."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider reveal"></div>
+
+<section id="tong-quan" class="sec-final-summary">
+  <div class="summary-left reveal">
+    <div class="sec-bignum">03</div>
+    <div class="sec-eyebrow">Trải nghiệm &amp; Nhìn nhận</div>
+    <h2 class="summary-title-grid">Trang <em>Tổng kết</em></h2>
+    
+    <div class="summary-list">
+      <div class="summary-item">
+        <div class="summary-badge">1</div>
+        <div class="summary-body">
+          <strong>Trải nghiệm &amp; Cảm nhận cá nhân</strong>
+          <span>Quá trình hoàn thiện trang Portfolio đã mang lại cho em rất nhiều niềm vui.<br>Em nhận thấy bản thân đã trưởng thành và chủ động hơn trong tư duy số.</span>
+        </div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-badge">2</div>
+        <div class="summary-body">
+          <strong>Kiến thức &amp; Kỹ năng cốt lõi</strong>
+          <span>Em đã làm chủ được các công cụ Generative AI để áp dụng vào thực tiễn học tập.<br>Đồng thời, em cũng nâng cao toàn diện kỹ năng tổ chức và làm việc nhóm trực tuyến.</span>
+        </div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-badge">3</div>
+        <div class="summary-body">
+          <strong>Điểm tâm đắc &amp; Thách thức</strong>
+          <span>Em vô cùng tâm đắc khi tự tay thiết kế được không gian lưu trữ dự án số này.<br>Dù gặp khó khăn lúc tối ưu giao diện, em vẫn nỗ lực vượt qua để hoàn thiện.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-right reveal">
+    <div class="y2k-thanks-container">
+      <h3 class="y2k-thanks-title">Cảm ơn!</h3>
+      <div class="y2k-thanks-sub">Đã đồng hành cùng Quang</div>
+    </div>
+  </div>
+</section>
+
+<div id="docs-dim-backdrop" class="docs-dim-backdrop"></div>
+
+<div id="docs-viewer" class="docs-viewer-overlay">
+  <div class="docs-header-bar">
+    <button id="close-docs-btn" class="btn-back-portfolio">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      Đóng
+    </button>
+    <div class="docs-title-info">
+      <strong id="viewer-title">Bài tập 1 · Bài 1</strong>
+      <span id="viewer-subtitle">Thao tác cơ bản với tệp tin và thư mục</span>
+    </div>
+  </div>
+
+  <div class="docs-paper-container">
+    
+    <div class="docs-panel-title">
+      <span class="dpt-badge">Tài liệu PDF</span>
+      <span class="dpt-name" id="viewer-filename">Bài tập 1: Thao tác cơ bản.pdf</span>
+    </div>
+
+    <iframe id="viewer-iframe" src="" 
+            style="width: 100%; max-width: 800px; height: 85vh; min-height: 800px; border: 1px solid rgba(212, 168, 67, 0.2); border-radius: 6px; box-shadow: 0 4px 24px rgba(45, 92, 62, 0.10), 0 1px 4px rgba(45,92,62,0.06); background: #fff;" 
+            title="Tài liệu PDF">
+    </iframe>
+
+  </div>
+</div>
+
+<script>
+/* 1. Hiệu ứng cuộn Reveal on Scroll */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('on');
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* 2. Điều khiển đóng mở tài liệu trượt mượt mà sang phải */
+const btnBaiTap1 = document.getElementById('btn-baitap-1');
+const btnBaiTap2 = document.getElementById('btn-baitap-2'); 
+const btnBaiTap3 = document.getElementById('btn-baitap-3'); 
+const btnBaiTap4 = document.getElementById('btn-baitap-4'); 
+const btnBaiTap5 = document.getElementById('btn-baitap-5'); 
+const btnBaiTap6 = document.getElementById('btn-baitap-6'); 
+
+const docsViewer = document.getElementById('docs-viewer');
+const btnCloseDocs = document.getElementById('close-docs-btn');
+const dimBackdrop = document.getElementById('docs-dim-backdrop');
+
+// Khai báo các thành phần nội dung trong khung Docs Viewer
+const viewerTitle = document.getElementById('viewer-title');
+const viewerSubtitle = document.getElementById('viewer-subtitle');
+const viewerFilename = document.getElementById('viewer-filename');
+const viewerIframe = document.getElementById('viewer-iframe');
+
+// Hàm nhận thông số để điền nội dung vào khung view và mở panel
+function openDocsPanel(title, subtitle, filename, pdfSrc) {
+  if(viewerTitle) viewerTitle.innerText = title;
+  if(viewerSubtitle) viewerSubtitle.innerText = subtitle;
+  if(viewerFilename) viewerFilename.innerText = filename;
+  if(viewerIframe) viewerIframe.src = pdfSrc;
+
+  docsViewer.classList.add('active');
+  if (dimBackdrop) dimBackdrop.classList.add('active');
+  docsViewer.scrollTop = 0;
+}
+
+function closeDocsPanel() {
+  docsViewer.classList.remove('active');
+  if (dimBackdrop) dimBackdrop.classList.remove('active');
+}
+
+// Bấm nút Bài tập 1
+if (btnBaiTap1 && docsViewer && btnCloseDocs) {
+  btnBaiTap1.addEventListener('click', function(e) {
+    e.preventDefault();
+    openDocsPanel(
+      'Bài tập 1 · Bài 1', 
+      'Máy tính và thiết bị ngoại vi', 
+      'Bài tập 1: Thao tác cơ bản.pdf', 
+      'tmp4mwzed_bai-tap-1.pdf'
+    );
+  });
+}
+
+// Bấm nút Bài tập 2
+if (btnBaiTap2 && docsViewer && btnCloseDocs) {
+  btnBaiTap2.addEventListener('click', function(e) {
+    e.preventDefault();
+    openDocsPanel(
+      'Bài tập 2 · Bài 2', 
+      'Khai thác dữ liệu và thông tin', 
+      'BÁO CÁO BÀI 2.pdf', 
+      'BÁO CÁO BÀO 2.pdf' 
+    );
+  });
+}
+
+// Bấm nút Bài tập 3
+if (btnBaiTap3 && docsViewer && btnCloseDocs) {
+  btnBaiTap3.addEventListener('click', function(e) {
+    e.preventDefault();
+    openDocsPanel(
+      'Bài tập 3 · Bài 3', 
+      'Tổng quan về trí tuệ nhân tạo', 
+      'BÁO CÁO BÀI 3.pdf', 
+      'BÁO CÁO BÀI 3.pdf'
+    );
+  });
+}
+
+// Bấm nút Bài tập 4
+if (btnBaiTap4 && docsViewer && btnCloseDocs) {
+  btnBaiTap4.addEventListener('click', function(e) {
+    e.preventDefault();
+    openDocsPanel(
+      'Bài tập 4 · Bài 4', 
+      'Giao tiếp và hợp tác trong số', 
+      'BÁO CÁO bài 4.pdf', 
+      'BÁO CÁO bài 4.pdf'
+    );
+  });
+}
+
+// Bấm nút Bài tập 5
+if (btnBaiTap5 && docsViewer && btnCloseDocs) {
+  btnBaiTap5.addEventListener('click', function(e) {
+    e.preventDefault();
+    openDocsPanel(
+      'Bài tập 5 · Bài 5', 
+      'Sáng tạo nội dung số', 
+      'BÁO CÁO Bài 5.pdf', 
+      'BÁO CÁO Bài 5.pdf'
+    );
+  });
+}
+
+// Bấm nút Bài tập 6
+if (btnBaiTap6 && docsViewer && btnCloseDocs) {
+  btnBaiTap6.addEventListener('click', function(e) {
+    e.preventDefault();
+    openDocsPanel(
+      'Bài tập 6 · Bài 6', 
+      'An toàn và liêm chính học thuật', 
+      'BÁO CÁO bài 6.pdf', 
+      'BÁO CÁO bài 6.pdf'
+    );
+  });
+}
+
+// Các nút đóng panel
+if (btnCloseDocs) {
+  btnCloseDocs.addEventListener('click', function() {
+    closeDocsPanel();
+  });
+}
+
+if (dimBackdrop) {
+  dimBackdrop.addEventListener('click', function() {
+    closeDocsPanel();
+  });
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDocsPanel();
+});
+</script>
+
+</body>
+</html>
