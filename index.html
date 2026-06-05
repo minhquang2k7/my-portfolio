@@ -160,7 +160,11 @@ body::before{
 }
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
-.hero-right{ position:relative; display:flex;align-items:center;justify-content:center; }
+/* THAY ĐỔI NHỎ CSS: Cấp quyền chuyển động mượt cho .hero-right thay vì .chibi-stage */
+.hero-right{ 
+  position:relative; display:flex;align-items:center;justify-content:center; 
+  transition: transform 0.15s ease-out; will-change: transform; 
+}
 .chibi-stage{ position:relative;width:400px;height:460px; display:flex;align-items:center;justify-content:center; }
 
 .sticker{
@@ -850,6 +854,7 @@ body::before{
   </div> 
 </section>
 
+<!-- THÊM PHẦN VIDEO DỰ ÁN GIỮA KỲ VÀO ĐÂY (ĐÃ CẬP NHẬT FRAME MỚI) -->
 <section class="sec-midterm-video reveal">
   <div class="video-wrapper">
     <iframe width="1136" height="639" src="https://www.youtube.com/embed/VDuQ6hExvis" title="NHÓM 15 - AI TRONG ỨNG DỤNG TRONG ĐỜI SỐNG - NGOẠI NGỮ VÀ GIÁO DỤC" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -1011,13 +1016,11 @@ const docsViewer = document.getElementById('docs-viewer');
 const btnCloseDocs = document.getElementById('close-docs-btn');
 const dimBackdrop = document.getElementById('docs-dim-backdrop');
 
-// Khai báo các thành phần nội dung trong khung Docs Viewer
 const viewerTitle = document.getElementById('viewer-title');
 const viewerSubtitle = document.getElementById('viewer-subtitle');
 const viewerFilename = document.getElementById('viewer-filename');
 const viewerIframe = document.getElementById('viewer-iframe');
 
-// Hàm nhận thông số để điền nội dung vào khung view và mở panel
 function openDocsPanel(title, subtitle, filename, pdfSrc) {
   if(viewerTitle) viewerTitle.innerText = title;
   if(viewerSubtitle) viewerSubtitle.innerText = subtitle;
@@ -1034,99 +1037,62 @@ function closeDocsPanel() {
   if (dimBackdrop) dimBackdrop.classList.remove('active');
 }
 
-// Bấm nút Bài tập 1
 if (btnBaiTap1 && docsViewer && btnCloseDocs) {
   btnBaiTap1.addEventListener('click', function(e) {
     e.preventDefault();
-    openDocsPanel(
-      'Bài tập 1 · Bài 1', 
-      'Máy tính và thiết bị ngoại vi', 
-      'Bài tập 1: Thao tác cơ bản.pdf', 
-      'tmp4mwzed_bai-tap-1.pdf'
-    );
+    openDocsPanel('Bài tập 1 · Bài 1', 'Máy tính và thiết bị ngoại vi', 'Bài tập 1: Thao tác cơ bản.pdf', 'tmp4mwzed_bai-tap-1.pdf');
   });
 }
-
-// Bấm nút Bài tập 2
 if (btnBaiTap2 && docsViewer && btnCloseDocs) {
   btnBaiTap2.addEventListener('click', function(e) {
     e.preventDefault();
-    openDocsPanel(
-      'Bài tập 2 · Bài 2', 
-      'Khai thác dữ liệu và thông tin', 
-      'BÁO CÁO BÀI 2.pdf', 
-      'BÁO CÁO BÀI 2.pdf' 
-    );
+    openDocsPanel('Bài tập 2 · Bài 2', 'Khai thác dữ liệu và thông tin', 'BÁO CÁO BÀI 2.pdf', 'BÁO CÁO BÀI 2.pdf');
   });
 }
-
-// Bấm nút Bài tập 3
 if (btnBaiTap3 && docsViewer && btnCloseDocs) {
   btnBaiTap3.addEventListener('click', function(e) {
     e.preventDefault();
-    openDocsPanel(
-      'Bài tập 3 · Bài 3', 
-      'Tổng quan về trí tuệ nhân tạo', 
-      'BÁO CÁO BÀI 3.pdf', 
-      'BÁO CÁO BÀI 3.pdf'
-    );
+    openDocsPanel('Bài tập 3 · Bài 3', 'Tổng quan về trí tuệ nhân tạo', 'BÁO CÁO BÀI 3.pdf', 'BÁO CÁO BÀI 3.pdf');
   });
 }
-
-// Bấm nút Bài tập 4
 if (btnBaiTap4 && docsViewer && btnCloseDocs) {
   btnBaiTap4.addEventListener('click', function(e) {
     e.preventDefault();
-    openDocsPanel(
-      'Bài tập 4 · Bài 4', 
-      'Giao tiếp và hợp tác trong số', 
-      'BÁO CÁO bài 4.pdf', 
-      'BÁO CÁO bài 4.pdf'
-    );
+    openDocsPanel('Bài tập 4 · Bài 4', 'Giao tiếp và hợp tác trong số', 'BÁO CÁO bài 4.pdf', 'BÁO CÁO bài 4.pdf');
   });
 }
-
-// Bấm nút Bài tập 5
 if (btnBaiTap5 && docsViewer && btnCloseDocs) {
   btnBaiTap5.addEventListener('click', function(e) {
     e.preventDefault();
-    openDocsPanel(
-      'Bài tập 5 · Bài 5', 
-      'Sáng tạo nội dung số', 
-      'BÁO CÁO Bài 5.pdf', 
-      'BÁO CÁO Bài 5.pdf'
-    );
+    openDocsPanel('Bài tập 5 · Bài 5', 'Sáng tạo nội dung số', 'BÁO CÁO Bài 5.pdf', 'BÁO CÁO Bài 5.pdf');
   });
 }
-
-// Bấm nút Bài tập 6
 if (btnBaiTap6 && docsViewer && btnCloseDocs) {
   btnBaiTap6.addEventListener('click', function(e) {
     e.preventDefault();
-    openDocsPanel(
-      'Bài tập 6 · Bài 6', 
-      'An toàn và liêm chính học thuật', 
-      'BÁO CÁO bài 6.pdf', 
-      'BÁO CÁO bài 6.pdf'
-    );
+    openDocsPanel('Bài tập 6 · Bài 6', 'An toàn và liêm chính học thuật', 'BÁO CÁO bài 6.pdf', 'BÁO CÁO bài 6.pdf');
   });
 }
 
-// Các nút đóng panel
 if (btnCloseDocs) {
-  btnCloseDocs.addEventListener('click', function() {
-    closeDocsPanel();
-  });
+  btnCloseDocs.addEventListener('click', closeDocsPanel);
 }
-
 if (dimBackdrop) {
-  dimBackdrop.addEventListener('click', function() {
-    closeDocsPanel();
-  });
+  dimBackdrop.addEventListener('click', closeDocsPanel);
 }
-
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeDocsPanel();
+});
+
+/* 3. Hiệu ứng hình chibi lướt theo con trỏ chuột - ĐÃ FIX */
+// Áp dụng cho thẻ cha (.hero-right) thay vì thẻ con bị dính khóa transform của animation load
+document.addEventListener('mousemove', function(e) {
+  const chibiContainer = document.querySelector('.hero-right');
+  if (chibiContainer) {
+    const x = (e.clientX - window.innerWidth / 2) / 30;
+    const y = (e.clientY - window.innerHeight / 2) / 30;
+    chibiContainer.style.transform = `translate(${x}px, ${y}px)`;
+  }
 });
 </script>
 
