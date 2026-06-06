@@ -604,6 +604,50 @@ body::before{
   .summary-title-grid { font-size: 38px; }
   .sec-bignum { font-size: 70px; }
 }
+
+/* =========================================
+   HIỆU ỨNG CON TRỎ CHUỘT
+========================================= */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--green-mid); /* Màu xanh của theme */
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 99999; /* Luôn nằm trên cùng */
+  transition: transform 0.1s ease-out, background-color 0.2s ease;
+}
+
+.custom-cursor.hovered {
+  transform: translate(-50%, -50%) scale(1.5);
+  background-color: rgba(45, 92, 62, 0.2);
+}
+
+html, body {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2" fill="%232d5c3e"/></svg>'), auto;
+}
+
+/* =========================================
+   CHỈNH SỬA HOA ANH ĐÀO (NẰM Ở HERO, DƯỚI NỘI DUNG)
+========================================= */
+/* Thay đổi hoặc thêm mới nếu id canvas của bạn là petal-canvas */
+#petal-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Nằm dưới nội dung nhưng trên nền web */
+  pointer-events: none; 
+}
+
+/* Đảm bảo phần nội dung trong Giới thiệu nổi lên trên cánh hoa */
+.hero-left, .hero-right {
+  position: relative;
+  z-index: 2; /* Đè lên trên hoa anh đào */
+}
 </style>
 </head>
 <body>
@@ -617,7 +661,13 @@ body::before{
   </div>
 </nav>
 
-<section id="gioi-thieu" class="hero">
+<section id="gioi-thieu" class="hero" style="position:relative;overflow:hidden;">
+<canvas id="sakura-canvas" style="
+  position:absolute; top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none;
+  z-index:5;
+"></canvas>
   <span class="corner-tag tl"><span class="ctag-badge">PORTFOLIO</span> 2026</span>
   <span class="corner-tag tr">VNU-UET<br>Vật liệu Vi điện tử</span>
   <span class="corner-tag bl">MSV · 25024024</span>
@@ -1096,5 +1146,545 @@ document.addEventListener('mousemove', function(e) {
 });
 </script>
 
+
+<!-- ═══════════════════════════════════════════════════
+     THÊM MỚI: Hoa anh đào + UI display chibi nâng cao
+     (KHÔNG sửa code cũ, chỉ thêm vào cuối)
+════════════════════════════════════════════════════ -->
+
+<!-- Canvas hoa anh đào (fixed, phủ toàn trang, pointer-events:none) -->
+
+
+<!-- UI HUD display quanh chibi -->
+<style>
+/* ── CHIBI 3D TILT WRAPPER ── */
+.chibi-tilt-wrap {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  transform-style: preserve-3d;
+  transition: transform 0.08s linear;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Glow hào quang theo cursor */
+.chibi-glow {
+  position: absolute;
+  width: 340px; height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(252,226,175,0.35) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: screen;
+}
+
+/* HUD ring quanh chibi */
+.hud-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(212,168,67,0.25);
+  pointer-events: none;
+  animation: hud-pulse 3s ease-in-out infinite;
+}
+.hud-ring:nth-child(1) { width:380px; height:380px; animation-delay:0s; }
+.hud-ring:nth-child(2) { width:430px; height:430px; animation-delay:0.6s; border-color:rgba(212,168,67,0.12); }
+.hud-ring:nth-child(3) { width:490px; height:490px; animation-delay:1.2s; border-color:rgba(212,168,67,0.07); }
+@keyframes hud-pulse {
+  0%,100% { transform:scale(1); opacity:1; }
+  50%      { transform:scale(1.03); opacity:0.6; }
+}
+
+/* HUD data tags — float quanh chibi */
+.hud-tag {
+  position: absolute;
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(238,244,240,0.88);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(212,168,67,0.5);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: 'Be Vietnam Pro', monospace;
+  font-size: 9px; font-weight: 600;
+  color: var(--green, #2d5c3e);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 5;
+  white-space: nowrap;
+  animation: hud-tag-float 4s ease-in-out infinite;
+  box-shadow: 0 2px 8px rgba(45,92,62,0.12);
+}
+.hud-tag .hud-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--green, #2d5c3e);
+  animation: hud-dot-blink 1.5s ease-in-out infinite;
+}
+.hud-tag.ht-tl { top: 60px;  left: -30px;  animation-delay: 0s;   animation-duration: 3.8s; }
+.hud-tag.ht-tr { top: 100px; right: -20px; animation-delay: 0.5s; animation-duration: 4.2s; }
+.hud-tag.ht-bl { bottom: 120px; left: -20px; animation-delay: 1s; animation-duration: 3.5s; }
+.hud-tag.ht-br { bottom: 90px; right: -10px; animation-delay: 1.5s; animation-duration: 4.5s; }
+.hud-tag.ht-tc { top: 5px; left: 50%; transform: translateX(-50%); animation-delay: 0.8s; }
+
+@keyframes hud-tag-float {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-5px); }
+}
+.hud-tag.ht-tc { animation-name: hud-tag-float-center; }
+@keyframes hud-tag-float-center {
+  0%,100% { transform: translateX(-50%) translateY(0px); }
+  50%      { transform: translateX(-50%) translateY(-5px); }
+}
+
+@keyframes hud-dot-blink {
+  0%,100% { opacity:1; } 50% { opacity:0.2; }
+}
+
+/* HUD scan line effect on the chibi circle */
+.hud-scan {
+  position: absolute;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+.hud-scan::after {
+  content: '';
+  position: absolute;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(212,168,67,0.5), transparent);
+  top: -2px;
+  animation: hud-scan-line 3.5s linear infinite;
+}
+@keyframes hud-scan-line {
+  from { top: -2px; opacity: 1; }
+  80%  { opacity: 1; }
+  to   { top: 100%; opacity: 0; }
+}
+
+/* Corner brackets on chibi circle */
+.hud-bracket {
+  position: absolute;
+  width: 24px; height: 24px;
+  pointer-events: none; z-index: 4;
+}
+.hud-bracket::before, .hud-bracket::after {
+  content: '';
+  position: absolute;
+  background: var(--gold-deep, #d4a843);
+}
+.hud-bracket::before { width: 100%; height: 2px; top: 0; left: 0; }
+.hud-bracket::after  { width: 2px; height: 100%; top: 0; left: 0; }
+
+.hb-tl { top: 24px;   left: 24px;  transform: rotate(0deg); }
+.hb-tr { top: 24px;   right: 24px; transform: rotate(90deg); }
+.hb-bl { bottom: 24px;left: 24px;  transform: rotate(-90deg); }
+.hb-br { bottom: 24px;right: 24px; transform: rotate(180deg); }
+</style>
+
+<script>
+/* ══════════════════════════════════════════════
+   THÊM MỚI 1: CHIBI 3D TILT + HUD UI
+   Inject HUD elements vào .chibi-stage sau khi DOM load
+════════════════════════════════════════════════ */
+(function() {
+  function initChibiHUD() {
+    const stage = document.querySelector('.chibi-stage');
+    const heroRight = document.querySelector('.hero-right');
+    if (!stage || !heroRight) return;
+
+    /* -- Inject HUD HTML vào trong .chibi-stage -- */
+    const hud = document.createElement('div');
+    hud.innerHTML = `
+      <!-- Glow -->
+      <div class="chibi-glow"></div>
+      <!-- Pulse rings -->
+      <div class="hud-ring"></div>
+      <div class="hud-ring"></div>
+      <div class="hud-ring"></div>
+      <!-- Scan line -->
+      <div class="hud-scan"></div>
+      <!-- Corner brackets -->
+      <div class="hud-bracket hb-tl"></div>
+      <div class="hud-bracket hb-tr"></div>
+      <div class="hud-bracket hb-bl"></div>
+      <div class="hud-bracket hb-br"></div>
+      <!-- Data tags -->
+      <div class="hud-tag ht-tl"><span class="hud-dot"></span>MSV · 25024024</div>
+      <div class="hud-tag ht-tr"><span class="hud-dot"></span>Vi điện tử</div>
+      <div class="hud-tag ht-bl"><span class="hud-dot"></span>VNU-UET</div>
+      <div class="hud-tag ht-br"><span class="hud-dot"></span>2025</div>
+      <div class="hud-tag ht-tc"><span class="hud-dot"></span>Nguyễn Minh Quang</div>
+    `;
+    /* Append to stage (keeps chibi-img untouched) */
+    stage.appendChild(hud);
+
+    /* -- 3D tilt: override the existing simple translate with perspective tilt -- */
+    let mouseX = 0, mouseY = 0;
+    let raf;
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateTilt() {
+      const rect = heroRight.getBoundingClientRect();
+      const cx   = rect.left + rect.width / 2;
+      const cy   = rect.top  + rect.height / 2;
+      const dx   = (mouseX - cx) / (window.innerWidth / 2);
+      const dy   = (mouseY - cy) / (window.innerHeight / 2);
+
+      /* Gentle 3D tilt — max ±12deg */
+      const rotY =  dx * 12;
+      const rotX = -dy *  8;
+
+      /* Translate drift (same as original but smoother) */
+      const tx = (mouseX - window.innerWidth  / 2) / 28;
+      const ty = (mouseY - window.innerHeight / 2) / 28;
+
+      heroRight.style.transform =
+        `translate(${tx}px, ${ty}px) perspective(800px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+
+      /* Move glow toward cursor */
+      const glow = stage.querySelector('.chibi-glow');
+      if (glow) {
+        const gx = dx * 30;
+        const gy = dy * 30;
+        glow.style.transform = `translate(${gx}px, ${gy}px)`;
+      }
+
+      raf = requestAnimationFrame(animateTilt);
+    }
+    animateTilt();
+  }
+
+  /* Run after DOM ready */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initChibiHUD);
+  } else {
+    initChibiHUD();
+  }
+})();
+
+/* ══════════════════════════════════════════
+   HOA ANH ĐÀO + CURSOR — rewrite v2
+   (Không sửa code cũ phía trên)
+══════════════════════════════════════════ */
+(function () {
+  /* ────────────────────────────────────────
+     1. CURSOR
+  ──────────────────────────────────────── */
+  // Remove old cursor element if present, inject fresh one
+  const oldCursor = document.getElementById('customCursor');
+  if (oldCursor) oldCursor.remove();
+
+  const style = document.createElement('style');
+  style.textContent = `
+    *{ cursor: none !important; }
+    #nmq-cursor {
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 999999;
+      transform: translate(-50%,-50%);
+      will-change: transform;
+    }
+    #nmq-cursor .cur-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #d4a843;
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      transition: transform .15s ease, opacity .15s ease;
+    }
+    #nmq-cursor .cur-ring {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid rgba(212,168,67,0.7);
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      transition: width .25s ease, height .25s ease,
+                  border-color .25s ease, border-width .25s ease;
+    }
+    #nmq-cursor .cur-trail {
+      position: absolute; border-radius: 50%;
+      background: rgba(252,182,197,0.55);
+      pointer-events: none;
+      animation: trail-fade .6s ease forwards;
+    }
+    @keyframes trail-fade {
+      from { transform: translate(-50%,-50%) scale(1); opacity: .7; }
+      to   { transform: translate(-50%,-50%) scale(0); opacity: 0; }
+    }
+    /* hover state */
+    body.cur-hover #nmq-cursor .cur-dot {
+      transform: translate(-50%,-50%) scale(2.5);
+      background: #2d5c3e;
+    }
+    body.cur-hover #nmq-cursor .cur-ring {
+      width: 56px; height: 56px;
+      border-color: rgba(45,92,62,0.5);
+      border-width: 2px;
+    }
+    /* click state */
+    body.cur-click #nmq-cursor .cur-dot {
+      transform: translate(-50%,-50%) scale(0.4);
+    }
+    body.cur-click #nmq-cursor .cur-ring {
+      width: 22px; height: 22px;
+    }
+    /* sakura burst on click */
+    .sakura-burst {
+      position: fixed; pointer-events: none;
+      z-index: 999998;
+      width: 0; height: 0;
+    }
+    .sakura-burst span {
+      position: absolute;
+      font-size: 14px;
+      animation: burst-fly .8s ease forwards;
+      transform-origin: 0 0;
+    }
+    @keyframes burst-fly {
+      0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: var(--tx) scale(0.3) rotate(var(--tr)); }
+    }
+  `;
+  document.head.appendChild(style);
+
+  const cursor = document.createElement('div');
+  cursor.id = 'nmq-cursor';
+  cursor.innerHTML = '<div class="cur-dot"></div><div class="cur-ring"></div>';
+  document.body.appendChild(cursor);
+
+  let cx = -100, cy = -100;   // current position (instant)
+  let rx = -100, ry = -100;   // ring position (lagged)
+
+  document.addEventListener('mousemove', e => {
+    cx = e.clientX; cy = e.clientY;
+  });
+
+  // Trail petals on fast move
+  let lastTX = 0, lastTY = 0, trailTimer = 0;
+  function spawnTrail(x, y) {
+    const t = document.createElement('div');
+    const s = 6 + Math.random() * 8;
+    t.className = 'cur-trail';
+    t.style.cssText = `left:${x}px;top:${y}px;width:${s}px;height:${s}px;`;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 650);
+  }
+
+  // Hover detection
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest('a,button,.folder-tab-card,.f-link-btn,.nav-btn,.ctrl-btn'))
+      document.body.classList.add('cur-hover');
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('a,button,.folder-tab-card,.f-link-btn,.nav-btn,.ctrl-btn'))
+      document.body.classList.remove('cur-hover');
+  });
+
+  // Click burst
+  document.addEventListener('mousedown', e => {
+    document.body.classList.add('cur-click');
+    // Burst 6 petals
+    const burst = document.createElement('div');
+    burst.className = 'sakura-burst';
+    burst.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;`;
+    const emojis = ['🌸','🌺','✿','❀','🌸','✾'];
+    for (let i = 0; i < 6; i++) {
+      const span = document.createElement('span');
+      const angle = (i / 6) * 360;
+      const dist  = 40 + Math.random() * 40;
+      const tx = Math.cos(angle * Math.PI/180) * dist;
+      const ty = Math.sin(angle * Math.PI/180) * dist;
+      span.textContent = emojis[i];
+      span.style.setProperty('--tx', `translate(${tx}px,${ty}px)`);
+      span.style.setProperty('--tr', `${Math.random()*360}deg`);
+      span.style.animationDelay = `${i * 0.04}s`;
+      burst.appendChild(span);
+    }
+    document.body.appendChild(burst);
+    setTimeout(() => burst.remove(), 900);
+  });
+  document.addEventListener('mouseup', () => document.body.classList.remove('cur-click'));
+
+  // Animate cursor (dot instant, ring lagged)
+  const RING_EASE = 0.12;
+  function animCursor() {
+    rx += (cx - rx) * RING_EASE;
+    ry += (cy - ry) * RING_EASE;
+    cursor.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
+    cursor.querySelector('.cur-ring').style.transform =
+      `translate(${rx - cx}px,${ry - cy}px) translate(-50%,-50%)`;
+
+    // Trail on fast movement
+    const dx = cx - lastTX, dy = cy - lastTY;
+    const spd = Math.sqrt(dx*dx + dy*dy);
+    trailTimer++;
+    if (spd > 12 && trailTimer % 3 === 0) spawnTrail(cx, cy);
+    lastTX = cx; lastTY = cy;
+
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+
+  /* ────────────────────────────────────────
+     2. HOA ANH ĐÀO CANVAS — rewrite
+  ──────────────────────────────────────── */
+  let canvas = document.getElementById('sakura-canvas');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.id = 'sakura-canvas';
+    canvas.style.cssText =
+      'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;';
+    document.body.appendChild(canvas);
+  }
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0;
+
+  function resize() {
+    const sec = canvas.parentElement || canvas;
+    W = canvas.width  = sec.offsetWidth  || window.innerWidth;
+    H = canvas.height = sec.offsetHeight || window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  // Also resize when section height changes (content load)
+  if (canvas.parentElement) {
+    new ResizeObserver(resize).observe(canvas.parentElement);
+  }
+
+  /* ── Real petal shape (teardrop / cherry-blossom lobe) ── */
+  function drawPetal(x, y, size, rot, alpha, colorIdx) {
+    const COLORS = [
+      [255, 160, 185],   // vivid pink
+      [255, 192, 210],   // medium pink
+      [255, 215, 228],   // light pink
+      [250, 175, 195],   // rose
+      [255, 230, 240],   // blush
+    ];
+    const c = COLORS[colorIdx % COLORS.length];
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+
+    // Teardrop petal: wide top, pointed bottom
+    const w = size * 0.65;
+    const h = size;
+
+    const grad = ctx.createLinearGradient(0, -h * 0.5, 0, h * 0.5);
+    grad.addColorStop(0,   `rgba(${c[0]},${c[1]},${c[2]},1)`);
+    grad.addColorStop(0.5, `rgba(${c[0]-15},${c[1]-15},${c[2]-10},0.85)`);
+    grad.addColorStop(1,   `rgba(${c[0]-30},${c[1]-30},${c[2]-20},0.4)`);
+
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(0, -h * 0.5);                        // top center
+    ctx.bezierCurveTo( w*0.9, -h*0.5, w*1.0, h*0.1, 0, h*0.55);  // right curve
+    ctx.bezierCurveTo(-w*1.0, h*0.1, -w*0.9, -h*0.5, 0, -h*0.5); // left curve
+    ctx.closePath();
+    ctx.fill();
+
+    // Inner vein
+    ctx.globalAlpha = alpha * 0.25;
+    ctx.strokeStyle = `rgba(${c[0]+20},${c[1]-40},${c[2]-40},1)`;
+    ctx.lineWidth = 0.6;
+    ctx.beginPath();
+    ctx.moveTo(0, -h * 0.4);
+    ctx.lineTo(0,  h * 0.4);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  /* ── Petal object ── */
+  const COUNT = 90;  // plenty of petals
+  const petals = [];
+
+  function mkPetal(scatter) {
+    const size = 14 + Math.random() * 18;   // big enough to see clearly
+    return {
+      x:      scatter ? Math.random() * W : Math.random() * W,
+      y:      scatter ? Math.random() * H : -size * 2 - Math.random() * H * 0.3,
+      size,
+      rot:    Math.random() * Math.PI * 2,
+      rotV:   (Math.random() - 0.5) * 0.045,
+      vx:     (Math.random() - 0.5) * 1.4,
+      vy:     1.2 + Math.random() * 1.8,
+      sway:   Math.random() * Math.PI * 2,
+      swayA:  0.6 + Math.random() * 1.2,
+      swayS:  0.014 + Math.random() * 0.018,
+      alpha:  0.75 + Math.random() * 0.25,   // strong opacity
+      op:     0,
+      ci:     Math.floor(Math.random() * 5),
+      fadeIn: !scatter,
+    };
+  }
+
+  for (let i = 0; i < COUNT; i++) petals.push(mkPetal(true));
+
+  // Mouse wind
+  let wind = 0, prevMX = innerWidth / 2;
+  document.addEventListener('mousemove', e => {
+    wind = Math.max(-2, Math.min(2, wind + (e.clientX - prevMX) * 0.006));
+    prevMX = e.clientX;
+  });
+
+  // Click spawns extra petals from click point
+  document.addEventListener('click', e => {
+    for (let i = 0; i < 8; i++) {
+      const p = mkPetal(false);
+      p.x = e.clientX + (Math.random() - 0.5) * 60;
+      p.y = e.clientY - 20;
+      p.vy = -(1 + Math.random() * 3);      // shoot upward first
+      p.vx = (Math.random() - 0.5) * 5;
+      p.op = p.alpha;
+      p.fadeIn = false;
+      petals.push(p);
+    }
+    // Trim pool
+    while (petals.length > COUNT + 50) petals.shift();
+  });
+
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    wind *= 0.96;
+
+    for (let i = petals.length - 1; i >= 0; i--) {
+      const p = petals[i];
+
+      // Update
+      p.sway += p.swayS;
+      p.x    += p.vx + Math.sin(p.sway) * p.swayA + wind;
+      p.y    += p.vy;
+      p.rot  += p.rotV;
+      p.vy   += 0.018;   // slight gravity
+
+      if (p.fadeIn) {
+        p.op = Math.min(p.alpha, p.op + 0.03);
+        if (p.op >= p.alpha) p.fadeIn = false;
+      } else {
+        p.op = p.alpha;
+      }
+
+      // Recycle
+      if (p.y > H + 40 || p.x < -80 || p.x > W + 80) {
+        if (i >= COUNT) {
+          petals.splice(i, 1);   // extra click petals just vanish
+        } else {
+          Object.assign(p, mkPetal(false));
+        }
+        continue;
+      }
+
+      drawPetal(p.x, p.y, p.size, p.rot, p.op, p.ci);
+    }
+
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
 </body>
 </html>
